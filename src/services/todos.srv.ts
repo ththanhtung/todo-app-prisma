@@ -1,4 +1,4 @@
-import { createNewTask, findOneTask, updateTask } from "../repositories/tasks"
+import { createNewTask, deleteTaskByID, findOneTask, updateTask } from "../repositories/tasks"
 
 interface NewTaskReq {
     content: string;
@@ -35,8 +35,12 @@ class TodoService {
 
         if (!task){
             return {
-                errors:'cannot update task'
-            }
+              errors: [
+                {
+                  message: 'cannot update task',
+                },
+              ],
+            };
         }
 
         updates.forEach((update) => {
@@ -54,7 +58,8 @@ class TodoService {
     }
 
     static async getTask(id:string){
-        const task = findOneTask({id})
+        const task = await findOneTask({id})
+        
         if (!task){
             return {
                 errors: [
@@ -66,6 +71,22 @@ class TodoService {
         }
 
         return task
+    }
+
+    static async deleteTask(id:string){
+        const deletedTask = await deleteTaskByID(id) as Task
+
+        if (!deletedTask) {
+            return {
+                errors: [
+                    {
+                        message: 'error occured while deleting task...'
+                    }
+                ]
+            }
+        }
+
+        return deletedTask
     }
 }
 

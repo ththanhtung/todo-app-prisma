@@ -26,6 +26,15 @@ class TodosController {
             next(error)
         }
     }
+    
+    static async deleteTask(req: Request, res: Response, next: NextFunction){
+        try {
+            const {id} = req.params
+            res.send(await TodoService.deleteTask(id))
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 export default TodosController

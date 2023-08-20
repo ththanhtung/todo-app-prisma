@@ -51,8 +51,21 @@ const findOneTask = async (filter: {[k: string]: any})=>{
   }
 }
 
+const deleteTaskByID = async(id: string) => {
+  try {
+    return await prisma.task.delete({
+      where: {
+        id
+      }
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export {
   createNewTask, 
   updateTask,
-  findOneTask
+  findOneTask,
+  deleteTaskByID
 }
