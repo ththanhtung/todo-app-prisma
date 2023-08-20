@@ -9,6 +9,23 @@ class TodosController {
             next(error)
         }
     }
+    static async updateTask(req: Request, res:Response, next: NextFunction){
+        try {
+            const {id} = req.params
+            res.status(200).send(await TodoService.updateTask({id,...req.body}))
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async getTask(req: Request, res: Response, next: NextFunction){
+        try {
+            const {id} = req.params
+            res.send(await TodoService.getTask(id))
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 export default TodosController
